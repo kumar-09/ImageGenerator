@@ -11,8 +11,11 @@ pipe = StableDiffusionPipeline.from_pretrained(model_id)
 pipe = pipe.to("cuda" if torch.cuda.is_available() else "cpu")
 
 def generate_image(prompt):
-    # Generate image using the stable diffusion model
-    image = pipe(prompt).images[0]
+    dimensions = (400, 400) # (width, height) tuple
+    image = pipe(prompt= prompt,   
+              height = dimensions[0],
+              width = dimensions[1],  
+             ).images[0]
     
     # Save image to a BytesIO object
     img_io = io.BytesIO()
@@ -23,10 +26,9 @@ def generate_image(prompt):
 
 @app.route('/generate_image', methods=['GET'])
 def generate_image_route():
-    # Example prompt
-    prompt = "A fantasy landscape with mountains and a river"
+    prompt = " "
     img_io = generate_image(prompt)
     return send_file(img_io, mimetype='image/png')
 
 if __name__ == '__main__':
-    app.run(port=5001)
+    app.run(port=5000)

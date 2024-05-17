@@ -5,7 +5,7 @@ const App = () => {
   const [image, setImage] = useState('');
 
   const fetchImage = async () => {
-    const response = await fetch('http://localhost:8000/refresh');
+    const response = await fetch('http://127.0.0.1:8000/refresh');
     const blob = await response.blob();
     const imageUrl = URL.createObjectURL(blob);
     setImage(imageUrl);
